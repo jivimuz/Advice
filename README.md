@@ -52,6 +52,24 @@ This is a simple system for managing advice, including translation features. Fol
 
 If you wish to contribute to the project, please fork the repository and submit a pull request with your changes.
 
+## Language
+
+-   set default : {url}/language/{country code}
+-   example : localhost/language/en
+
+## To Run Advice Migration From Old Data
+
+-   then php artisan migrate:advice {total data} {offset}
+-   then php artisan migrate:advice 1000 0
+-   1000 is example of rows and 0 is offset
+
+-   run php artisan queue:work --queue=default --tries=3 --timeout=900
+
+## Translation Docs
+
+-   Endpoints Docs: https://docs.translateplus.io/
+-   Api Key: https://app.translateplus.io/dashboard/api-keys
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

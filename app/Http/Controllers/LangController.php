@@ -15,10 +15,21 @@ class LangController extends Controller
     {
         $curId = (int)$request->cur_lang;
 
-        $data = Lang::select('id')->where('id', $curId);
+        $data = Lang::select('id')->where('id', $curId)->first();
         if ($data) {
             Session::put('lang_id', $curId);
             return response()->json(["message" => 'success', 'data' =>  $curId], 200);
+        }
+        Session::put('lang_id', 1);
+        return response()->json(["message" => 'error', 'error' =>  'This Language is not registered'], 401);
+    }
+
+    public function setLangByCode($parameter)
+    {
+        $data = Lang::select('id')->where('code', $parameter)->first();
+        if ($data) {
+            Session::put('lang_id', $data->id);
+            return redirect()->route('home');
         }
         Session::put('lang_id', 1);
         return response()->json(["message" => 'error', 'error' =>  'This Language is not registered'], 401);

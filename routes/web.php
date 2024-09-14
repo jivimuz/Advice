@@ -4,13 +4,15 @@ use App\Http\Controllers\AdviceController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LangController;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/', [HomeController::class, 'index']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('language/{parameter}', [LangController::class, 'setLangByCode']);
 
 Route::get('login', [AuthController::class, 'index'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
@@ -39,4 +41,14 @@ Route::middleware(['auth'])->group(function () {
         Route::post('getLangRequest', [LangController::class, 'getLangRequest']);
         Route::post('saveLang', [LangController::class, 'saveLang']);
     });
+});
+
+
+Route::get('/test', function () {
+    $advices = DB::connection('old_mysql')
+        ->table('advice')
+        ->orderBy('id')
+        ->limit(100)
+        ->get();
+    dd($advices);
 });
